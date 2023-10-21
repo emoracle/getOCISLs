@@ -17,3 +17,15 @@ Get all security lists that references a given ip-adress and write the JSON to a
 ```
    node getSLs ip=x.x.x.x
 ```
+
+Get all security lists that references a description with a certain text and write the JSON to a file in the output directory.
+```
+   node getSLs description=xxx
+```
+
+Get all security lists that references a vcnName with a certain text and write the JSON to a file in the output directory.
+```
+   node getSLs vcnName=xxx
+```   
+
+And all kinds of attributes can be used
