@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "Get the Security lists",
   "main": "getSLs.js",
+  "type": "module",
   "scripts": {
-    "start": "node getSLs.js",
-    "test": "node getSLs.js port=8000"
+    "start": "node --no-warnings getSLs.js",
+    "test": "node --no-warnings getSLs.js port=8000"
   },
   "author": "H.E. van Meerendonk",
   "license": "ISC",
   "dependencies": {
-    "oci-sdk": "^2.70.3"
+    "oci-sdk": "^2.70.3",
+    "path": "^0.12.7"
   }
 }
