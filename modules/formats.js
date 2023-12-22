@@ -21,7 +21,7 @@ function getProtocolName(protocolCode) {
  * @param {object} rule - The security rule to format.
  * @returns {string} - A string representation of the security rule.
  */
-export function formatRule(type, rule, columnWidth = 25) {
+export function formatSLRule(type, rule, columnWidth = 25) {
     let protocol = rule.protocol|| '-';
     let description = rule.description || '-';
     let fromPort = '-';
@@ -48,5 +48,20 @@ export function formatRule(type, rule, columnWidth = 25) {
     const col5 = `protocol ${protocolName}`.padEnd(columnWidth);
 
     return `${col0} ${col1} ${col2} ${col3} ${col4} ${col5} ${description}`;
+}
+
+/**
+ * Formats and returns a string representation of a Routing table rule.
+ * @param {object} rule - The  rule to format.
+ * @returns {string} - A string representation of the rule.
+ */
+export function formatRoutingRule(type, rule, columnWidth = 25) {
+    let description = rule.description || '-';
+    let toIP = rule.destination || '-';
+
+    const col0 = type.padEnd(10);
+    const col1 = `to ${toIP}`.padEnd(columnWidth);
+
+    return `${col0} ${col1} ${description}`;
 }
 

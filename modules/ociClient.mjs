@@ -42,4 +42,29 @@ async function listAllSecurityLists(compartmentId) {
     }
 }
 
-export { getVcnName, listAllSecurityLists };
+/**
+ * Lists all routing lists within a specified compartment, retrieving all
+ * pages of results.
+ * @param {string} compartmentId - The OCID of the compartment.
+ * @returns {Promise<Array>} - A promise that resolves to an array of lists.
+ */
+
+async function listAllRoutingLists(compartmentId) {
+    let routingLists = [];
+    const request = { compartmentId };
+    try {
+        let response;
+        do {
+            response = await vcnClient.listRouteTables(request)
+            routingLists = routingLists.concat(response.items);
+            request.page = response.opcNextPage;
+        } while (response.opcNextPage);
+
+        return routingLists;
+    } catch (error) {
+        console.error(`Error listing security lists in compartment ${compartmentId}:`, error.message);
+        throw error;
+    }
+}
+
+export { getVcnName, listAllSecurityLists, listAllRoutingLists };

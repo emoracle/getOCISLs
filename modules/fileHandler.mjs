@@ -1,15 +1,16 @@
 import { promises as fs } from 'fs';
+import  path  from 'path';
 
 /**
- * Writes the provided security list to a file, formatted as JSON.
- * @param {object} sl - The security list to write.
+ * Writes the provided list to a file, formatted as JSON.
+ * @param {object} sl - The  list to write.
  * @param {string} vcnName - The name of the VCN.
  */
-async function writeSecurityListToFile(sl, vcnName) {
+async function writeListToFile(sl, vcnName, subpath) {
     let fileName = `${vcnName}_${sl.displayName}`.replace(/[/.]/g, '_');
-    fileName = `./output/${fileName}.json`;
+    fileName = `./output/${subpath}/${fileName}.json`;
     try {
-        await fs.mkdir('./output', { recursive: true });
+        await fs.mkdir(`./output/${subpath}`, { recursive: true });
         await fs.writeFile(fileName, JSON.stringify(sl, null, 2)); // 2 spaces for formatting
     } catch (error) {
         console.error(`Error writing to file ${fileName}:`, error.message);
@@ -23,11 +24,14 @@ async function writeSecurityListToFile(sl, vcnName) {
 async function deleteFilesInDirectory(directoryPath) {
     try {
         const files = await fs.readdir(directoryPath);
-        const deletePromises = files.map(file => fs.unlink(`${directoryPath}/${file}`));
+        const deletePromises = files.map(file => fs.unlink(path.join(directoryPath, file)));
         await Promise.all(deletePromises);
     } catch (error) {
-        console.error(`Error deleting files in ${directoryPath}:`, error);
+        // Check if the error is specifically 'ENOENT' (No such file or directory)
+        if (error.code !== 'ENOENT') {
+            console.error(`Error deleting files in ${directoryPath}:`, error);
+        }
     }
 }
 
-export { writeSecurityListToFile, deleteFilesInDirectory };
+export { writeListToFile, deleteFilesInDirectory };
