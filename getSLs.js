@@ -13,7 +13,7 @@ import { getVcnName, listAllSecurityLists } from './modules/ociClient.mjs';
 import { writeListToFile, deleteFilesInDirectory } from './modules/fileHandler.mjs';
 import { validateParams } from './modules/parameterValidator.js';
 import { ruleInvolvesParameter, slInvolvesParameter } from './modules/filters.js';
-import { formatRule } from './modules/formats.js';
+import { formatSLRule } from './modules/formats.js';
 import settings from './config/settings.json' assert { type: "json" };
 
 /**
@@ -81,7 +81,7 @@ import settings from './config/settings.json' assert { type: "json" };
                             console.log(`\n${sl.vcnName} Security List Name: ${sl.displayName}`);
                             headerIsWritten = true;
                         }
-                        console.log(formatRule(ruleType, rule));
+                        console.log(formatSLRule(ruleType, rule));
                         shouldWriteFile = true;
                     }
                 }
