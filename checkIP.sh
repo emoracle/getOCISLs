@@ -1,13 +1,12 @@
 #!/bin/sh
-# Kijkt alles na van een gegeven IP-adres:
-# - Waar komt hij voor in de Security lists
-# - Waar komt hij voor in de routing tables
+# Check everything about an IP address
+# - Where does it apear in a Security lists
+# - Where does it apear in a Routing table
 #
 # Auteur       : H.E. van Meerendonk
 # Creatiedatum : 22.12.2023
 # Revisie      :
-# 22.12.2023 EDME1 Onderdrukken van experimental warnings. Komt door
-#                  het gebruik van ES6-like imports
+# 22.12.2023 EDME1 Subpress experimental warnings. This is because of the ES6 syntax in the node.js code.
 
 if [ -z "$1" ]
 then

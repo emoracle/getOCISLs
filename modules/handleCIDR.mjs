@@ -3,12 +3,18 @@ import ip from 'ip';
 /* We exclude default the zero range, because everything is true in the zero range */ 
 let excludeNul = true;  // exclude 0.0.0.0/0
 
-/* But we offer the opportunity to include the zero range */
+/**
+ * Change the setting of the global variable excludeNul to false.
+ */
 export function includeNul() {
     excludeNul = false;
 }
 
-// Function to check if a string is in valid CIDR notation
+/**
+ * Check if a given CIDR is valid.
+ * @param {string} vcnId - The OCID of the VCN.
+ * @returns {boolean} - True if the CIDR is valid, false otherwise.
+ */
 export function isValidCIDR(cidr) {
     // Regular expression to match CIDR format
     const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/;
@@ -29,6 +35,12 @@ export function isValidCIDR(cidr) {
     return false;
 }
 
+/**
+ * Retrieves ipFrom, ipTo, and ipInRange for a given CIDR.
+ * @param {string} cidr - The CiDR to get the range from.
+ * @param {string} checkOnIp - Check if the IP is in the CIDR range.
+ * @returns {object} - An object containing ipFrom, ipTo, and ipInRange.
+ */
 export function getCIDRRange(cidr, checkOnIp = null) {
     if (!isValidCIDR(cidr)) {
         return {};
@@ -41,7 +53,12 @@ export function getCIDRRange(cidr, checkOnIp = null) {
     return { ipFrom, ipTo, ipInRange };
 }
 
-// Function to check if the IP is in a CIDR range
+/**
+ * Check if a given IP address is in a CIDR range.
+ * @param {string} ipAddress - The IP address to check.
+ * @param {string} cidr - The CIDR range to check in.
+ * @returns {boolean} - True if the IP is in the CIDR range, false otherwise.
+ */
 export function isIpInCIDR(ipAddress, cidr) {
     if (!isValidCIDR(cidr)) {
         return false;
