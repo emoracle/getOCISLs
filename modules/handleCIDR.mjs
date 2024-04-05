@@ -1,7 +1,9 @@
 import ip from 'ip';
 
+/* We exclude default the zero range, because everything is true in the zero range */ 
 let excludeNul = true;  // exclude 0.0.0.0/0
 
+/* But we offer the opportunity to include the zero range */
 export function includeNul() {
     excludeNul = false;
 }
