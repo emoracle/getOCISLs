@@ -6,7 +6,7 @@
 # Auteur       : H.E. van Meerendonk
 # Creatiedatum : 22.12.2023
 # Revisie      :
-# 22.12.2023 EDME1 Subpress experimental warnings. This is because of the ES6 syntax in the node.js code.
+# 22.12.2023 EDME1 Suppress experimental warnings. This is because of the ES6 syntax in the node.js code.
 
 if [ -z "$1" ]
 then

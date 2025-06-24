@@ -3,11 +3,8 @@
  * This script interacts with Oracle Cloud Infrastructure (OCI) to manage
  * virtual cloud network (VCN) security lists, specifically, it fetches and displays
  * security rules, and allows filtering and writing of those to files.
- * usage:
- *   node getSLs 
- *   node getSLs port=xxxxx
- *   node getSLs ip=xxxx
- *   node getSLs description=xxx     (like)
+ * Get the usage bij entering 
+ *   node getSLs help
  */
 import { getVcnName, listAllSecurityLists } from './modules/ociClient.mjs';
 import { writeListToFile, deleteFilesInDirectory } from './modules/fileHandler.mjs';
@@ -39,6 +36,7 @@ import settings from './config/settings.json' with { type: "json" };
         *   node getSLs port=xxxxx
         *   node getSLs ip=xxxx
         *   node getSLs description=xxx     (like)
+        *   node getSLs help (this message)
         `);
         process.exit(0);
     }
