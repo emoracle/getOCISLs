@@ -14,7 +14,7 @@ import { writeListToFile, deleteFilesInDirectory } from './modules/fileHandler.m
 import { validateParams } from './modules/parameterValidator.js';
 import { ruleInvolvesParameter, slInvolvesParameter } from './modules/filters.js';
 import { formatSLRule } from './modules/formats.js';
-import settings from './config/settings.json' assert { type: "json" };
+import settings from './config/settings.json' with { type: "json" };
 
 /**
  * Main execution block. Parses command-line parameters, fetches security lists,
