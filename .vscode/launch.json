@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/getSLs.js",
+            "program": "${workspaceFolder}/checkSLs2.js",
             "runtimeArgs": ["--no-warnings"]
         }
     ]

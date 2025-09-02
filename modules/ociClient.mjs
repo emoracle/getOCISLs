@@ -1,7 +1,8 @@
-import * as oci from 'oci-sdk';
+import common from "oci-common";
+import * as core from "oci-core";
 
-const provider = new oci.common.ConfigFileAuthenticationDetailsProvider();
-const vcnClient = new oci.core.VirtualNetworkClient({ authenticationDetailsProvider: provider });
+const provider = new common.ConfigFileAuthenticationDetailsProvider();
+const vcnClient = new core.VirtualNetworkClient({ authenticationDetailsProvider: provider });
 
 /**
  * Retrieves the name of a Virtual Cloud Network (VCN) given its ID.
@@ -62,9 +63,45 @@ async function listAllRoutingLists(compartmentId) {
 
         return routingLists;
     } catch (error) {
-        console.error(`Error listing security lists in compartment ${compartmentId}:`, error.message);
+        console.error(`Error listing Routing tables in compartment ${compartmentId}:`, error.message);
         throw error;
     }
 }
 
-export { getVcnName, listAllSecurityLists, listAllRoutingLists };
+/**
+ * All subnets in a compartment (by record iterator)
+ * @param {string} compartmentId
+ * @returns {Promise<Array<core.models.Subnet>>}
+ */
+async function listAllSubnets(compartmentId) {
+  try {
+    const out = [];
+    for await (const sn of vcnClient.listSubnetsRecordIterator({ compartmentId })) {
+      out.push(sn);
+    }
+    return out;
+  } catch (error) {
+    console.error(`Error listing subnets in compartment ${compartmentId}:`, error.message);
+    throw error;
+  }
+}
+
+
+
+
+/**
+ * Gets a dedicated SecurityList on Id
+ * @param {string} compartmentId - The OCID of the security list .
+ * @returns {Promise<Array>} - A promise that resolves to an array of lists.
+ */
+async function getSecurityList(securityListId) {
+    try {
+        const response= await vcnClient.getSecurityList({ securityListId });
+        return response.securityList;
+    } catch (error) {
+        console.error(`Error retrieving security list for ID ${securityListId}:`, error.message);
+        throw error; // Re-throwing the error after logging it allows you to handle it upstream if needed
+    }
+}
+
+export { getVcnName, listAllSecurityLists, listAllRoutingLists, listAllSubnets, getSecurityList };

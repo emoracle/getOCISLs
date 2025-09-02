@@ -11,6 +11,8 @@ function getProtocolName(protocolCode) {
             return 'TCP';
         case '17':
             return 'UDP';
+        case '-1':
+            return 'all'    
         default:
             return protocolCode;
     }
@@ -65,3 +67,17 @@ export function formatRoutingRule(type, rule, columnWidth = 25) {
     return `${col0} ${col1} ${description}`;
 }
 
+/**
+ * Formats and returns a simple string representation of a Security list rule.
+ * used by the checkSLs
+ * @param {object} rule - The  rule to format.
+ * @returns {string} - A string representation of the rule.
+ */
+export function simpleFmt(r) {
+        const proto = getProtocolName(r.protocol);
+        const pr = r.portRange ?? { from: r.fromPort ?? 0, to: r.toPort ?? 65535 };
+        const ports = (proto === 'all' || (pr.from === 0 && pr.to === 65535)) ? 'all' : `${pr.from}-${pr.to}`;
+        const from = r.fromCidr ?? r.fromip ?? '0.0.0.0/0';
+        const to = r.toCidr ?? r.toip ?? '0.0.0.0/0';
+        return `[${r.direction}] ${proto} ${ports} from ${from} to ${to}${r._sl ? ` (SL: ${r._sl})` : ''}`;
+    }

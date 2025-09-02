@@ -12,9 +12,15 @@ https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm
 ```
 
 # Getting Oracle Cloud Infrastructure Security Lists and/or Routing information
-Using this script in an environment with a configured and priviledged oci-cli
-it is able to get the Security Lists / Routing Tables of a compartment and associate
+Using this scripts in an environment with a configured and priviledged oci-cli
+They are able to get the Security Lists / Routing Tables of a compartment and associate
 these with the proper VCN cq. subnet.
+
+- checkIP.sh|bat   
+- getSLs.js        
+- getRouting.js    
+- checkSLs.js
+
 ### Example 1
 Get all everything around a given IP adress and write the JSON to files in the output directory.
 This is a bash script; a windows bat version is also included
@@ -61,4 +67,9 @@ Get all routing tables that references a description with a certain text and wri
 Get all security lists that references a vcnName with a certain text and write the JSON to a file in the output directory.
 ```
    node getSLs vcnName=xxx
+```   
+### Example 10
+Check all security lists per subnet and checks if there are supersets such that a rule can be removed
+```
+   node checkSLs 
 ```   

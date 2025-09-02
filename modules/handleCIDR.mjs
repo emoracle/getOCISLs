@@ -1,13 +1,51 @@
 import ip from 'ip';
 
-/* We exclude default the zero range, because everything is true in the zero range */ 
+
+const PROTO_MAP = {
+    '-1': 'all', 'all': 'all',
+    '6': 'tcp', 'tcp': 'tcp',
+    '17': 'udp', 'udp': 'udp',
+    '1': 'icmp', 'icmp': 'icmp',
+};
+
+/* We exclude default the zero range, because everything is true in the zero range */
 let excludeNul = true;  // exclude 0.0.0.0/0
 
 /**
- * Change the setting of the global variable excludeNul to false.
+ * Sets the `excludeNul` flag to false, indicating that null values should be included.
+ * 
+ * @function
+ * @returns {void}
  */
 export function includeNul() {
     excludeNul = false;
+}
+
+/**
+ * Normalizes a protocol string by converting it to lowercase and mapping it using PROTO_MAP.
+ * If the input is null or undefined, defaults to 'all'.
+ * If the protocol is not found in PROTO_MAP, returns the normalized key.
+ *
+ * @param {string|null|undefined} p - The protocol to normalize.
+ * @returns {string} The normalized protocol string.
+ */
+export function normalizeProtocol(p) {
+    const key = String(p ?? 'all').toLowerCase();
+    return PROTO_MAP[key] ?? key;
+}
+
+/**
+ * Converts an IPv4 address string to its 32-bit integer representation.
+ *
+ * @param {string} ip - The IPv4 address in dotted-decimal notation (e.g., "192.168.1.1").
+ * @returns {number|null} The 32-bit integer representation of the IP address, or null if the input is invalid.
+ */
+export function ipToInt(ip) {
+    const parts = ip.split('.').map(Number);
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n) || n < 0 || n > 255)) {
+        return null;
+    }
+    return (((parts[0] << 24) >>> 0) + (parts[1] << 16) + (parts[2] << 8) + parts[3]) >>> 0;
 }
 
 /**
